@@ -1,0 +1,111 @@
+# "Guess the number" mini-project
+
+import simplegui
+import random
+
+"""num_range is the current number range"""
+num_range = 100
+
+"""n is the available number of guesses"""
+n = 7
+
+# helper function to start and restart the game
+def new_game():
+    # initialize global variables used in your code here
+    global n
+    n = 7
+    global secret_number
+    secret_number = random.randrange(0, 100)
+    print ""
+    print "New game. Game range is [0, 100)."
+    print "Available number of guesses is 7." 
+    return secret_number
+       
+# defines event handlers for control panel
+
+def range100():
+    # button that changes the range to [0,100) and starts a new game 
+    global n
+    n = 7
+    global secret_number
+    secret_number = random.randrange(0, 100)
+    global num_range
+    num_range = 100
+    print ""
+    print "New game. Game range is [0, 100)."
+    print "Available number of guesses is 7."
+    return secret_number
+    return num_range
+    
+def range1000():
+    # button that changes the range to [0,1000) and starts a new game     
+    global n 
+    n = 10
+    global secret_number
+    secret_number = random.randrange(0, 1000)
+    global num_range
+    num_range = 1000
+    print 
+    print "New game. Game range is [0, 1000)." 
+    print "Available number of guesses is 10." 
+    return secret_number
+    return num_range
+        
+    """This function defines the main game logic"""
+def input_guess(guess):	
+    
+    """declaration of the global variable n 
+    decrements the number of guesses by one""" 
+    global n 
+    n -= 1
+    
+    """conversion of the guess text input into integer""" 
+    guess = int(guess)
+    
+    """prints the player's guessed number"""
+    print ""
+    print "Guess was " + str(guess)
+    
+    """conditions the game to return to appropriate number 
+    range and prints the appropriate responses."""
+    if (guess == secret_number and num_range == 1000):
+        print "Correct!"
+        return range1000()
+    elif (guess == secret_number and num_range == 100): 
+        print "Correct!"
+        return new_game()    
+    elif (n == 0 and num_range == 1000):
+        print "Out of guesses." 
+        print "Secret number was", secret_number
+        print "Game over."
+        print ""
+        return range1000()
+    elif (n == 0 and num_range == 100):
+        print "Out of guesses."
+        print "Secret number was", secret_number
+        print "Game over."
+        print ""
+        return new_game()
+    elif guess > secret_number:
+        print "Lower"
+    elif guess < secret_number: 
+        print "Higher"
+        
+    print "Number of guesses remaining is", str(n)
+     
+# creates frame
+f = simplegui.create_frame("guess the number", 200, 200)
+
+# registers event handlers for control elements
+f.add_button("Range is [0, 100)", range100, 200)
+f.add_button("Range is [0, 1000)", range1000, 200) 
+f.add_input("Guess number:", input_guess, 200)
+
+# calls new_game 
+new_game()
+
+#starts frame
+f.start()
+
+
+
